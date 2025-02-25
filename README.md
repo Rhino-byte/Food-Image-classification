@@ -65,7 +65,7 @@ Before starting, we conducted research on why food classification is important. 
 ### Loading the Dataset
 
 Using TensorFlow Datasets (TFDS), we loaded the Food101 dataset and inspected its structure:
-
+```
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
@@ -76,11 +76,12 @@ import tensorflow_datasets as tfds
     as_supervised=True, 
     with_info=True
 )
-
+```
 ### Exploring the Data
 
 We visualized some sample images along with their class labels to understand the dataset better. We also checked the class distribution to ensure a balanced dataset.
 
+```
 import matplotlib.pyplot as plt
 class_names = ds_info.features['label'].names
 
@@ -88,41 +89,58 @@ for image, label in train_data.take(5):
     plt.imshow(image)
     plt.title(class_names[label.numpy()])
     plt.show()
+```
 
 ### Preprocessing the Data
 
 To prepare the data for training, we normalized pixel values and batched the dataset:
-
+```
 def preprocess(image, label):
     image = tf.image.resize(image, (224, 224)) / 255.0  # Resize and normalize
     return image, label
 
 train_data = train_data.map(preprocess).batch(32).prefetch(tf.data.AUTOTUNE)
 test_data = test_data.map(preprocess).batch(32).prefetch(tf.data.AUTOTUNE)
+```
 
 5. Building the Model
 
 We used a Convolutional Neural Network (CNN) for image classification. We started with a simple model and later fine-tuned it.
+```
+import tensorflow as tf
+from  tensorflow.Keras import layers
 
-from tensorflow.keras import layers, models
+# Finding our best base model to proceed with fine-tuning
 
-model = models.Sequential([
-    layers.Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)),
-    layers.MaxPooling2D(2,2),
-    layers.Conv2D(64, (3,3), activation='relu'),
-    layers.MaxPooling2D(2,2),
-    layers.Flatten(),
-    layers.Dense(128, activation='relu'),
-    layers.Dense(len(class_names), activation='softmax')
-])
+input_shape = (224,224,3)
+base_model = tf.keras.applications.EfficientNetB0(include_top = False)
+base_model.trainable = False
 
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+# Creating a Functional API model
+inputs = layers.Input(shape=input_shape,name = "input_layer")
+# Since the Efficient models have rescaling built-in we will not include a layer for that
+# x = preprocessing.Rescaling(1/255.)(x)
 
+x = base_model(inputs,training=False) # Just to enforce no updating the model weights
+x = layers.GlobalAveragePooling2D()(x)
+x = layers.Dense(len(class_names))(x)
+
+# To make sure the output tensors are in float 32 for numerical stability
+outputs = layers.Activation('softmax',dtype=tf.float32,name='Softmax_layer')(x)
+model = tf.keras.Model(inputs,outputs)
+
+# Compile model
+model.compile(loss = 'sparse_categorical_crossentropy',
+              metrics = ['accuracy'],
+              optimizer= tf.keras.optimizers.Adam(learning_rate= 0.001))
+
+```
 
 ### Data Augmentation
 
 Since real-world images may have different orientations, lighting, or occlusions, we applied data augmentation techniques.
 
+```
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 datagen = ImageDataGenerator(
@@ -130,9 +148,9 @@ datagen = ImageDataGenerator(
     horizontal_flip=True,
     shear_range=0.3
 )
-
+```
 We visualized how data augmentation modifies images to improve model generalization.
-
+```
 for image, label in train_data.take(1):
     image = tf.expand_dims(image[0], 0)
     aug_iter = datagen.flow(image, batch_size=1)
@@ -143,21 +161,22 @@ for image, label in train_data.take(1):
         plt.axis("off")
     plt.show()
 
-
+```
 ### Training the Model
 
 We trained the model on the dataset, tracking loss and accuracy for improvements.
 
-history = model.fit(train_data, validation_data=test_data, epochs=10)
+`history = model.fit(train_data, validation_data=test_data, epochs=10)`
 
 ### Evaluating the Model
 
 We trained the model using the preprocessed dataset and monitored the accuracy and loss over multiple epochs.
 We evaluated the model on test data and checked the accuracy.
 
+```
 test_loss, test_acc = model.evaluate(test_data)
 print("Test Accuracy:", test_acc)
-
+```
 ### Making Predictions
 
 After training, we tested the model with new food images to see how well it could classify them.
@@ -166,7 +185,7 @@ Transfer learning with EfficientNetB0 significantly improved accuracy compared t
 
 ### Feature Enhancements
 
-Transfer Learning: Use pre-trained models like ResNet or MobileNetV2 to improve classification accuracy.
+Transfer Learning: Use pre-trained models such as EfficientNet to improve classification accuracy.
 
 Data Augmentation: Apply techniques like flipping, rotation, and brightness adjustments to enhance generalization.
 
