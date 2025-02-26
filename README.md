@@ -2,6 +2,18 @@
 
 ![Team Building Cooking Classes near Springfield MA](https://github.com/user-attachments/assets/60fd1028-06a5-40c3-b7af-ea6e4694bb34)
 
+**Authors:**
+
+[Noel Christopher](https://github.com/NOE0464) 
+
+[Savins Nanyaemuny](https://github.com/Rhino-byte)
+
+[Anthony Ekeno](https://github.com/sananthonio)
+
+[Linet Lydia](https://github.com/LinetLydia)
+
+[Imran Mahfoudh](https://github.com/malvadaox)
+
 
 ## Overview *
 This project is a food image classification model built using TensorFlow and trained on the Food101 dataset. The goal is to develop a deep learning model capable of accurately classifying images into one of 101 different food categories. This project is particularly useful for applications in restaurant automation, diet tracking apps, and food delivery services that require image-based food recognition.
@@ -103,7 +115,7 @@ train_data = train_data.map(preprocess).batch(32).prefetch(tf.data.AUTOTUNE)
 test_data = test_data.map(preprocess).batch(32).prefetch(tf.data.AUTOTUNE)
 ```
 
-5. Building the Model
+### Building the Model
 
 We used a Convolutional Neural Network (CNN) for image classification. We started with a simple model and later fine-tuned it.
 ```
@@ -196,5 +208,25 @@ The model achieved an accuracy of around 76% on the test dataset.
 Some misclassifications occurred between visually similar food items.
 
 Training with a pre-trained model (e.g., MobileNetV2) could improve accuracy.
+
+# Success Story
+To evaluate our Food Vision 101 model's performance in real-world scenarios, we tested it on custom images outside of the training and validation datasets. This approach allowed us to observe how well the model generalized to new, unseen food images
+
+
+# Recommendations
+**Enhance Business Framing:** Clearly defining project goals and intended use cases ensures that the model aligns with business needs and user expectations. This clarity improves communication with stakeholders and increases project adoption.
+
+**Improve Model Explainability:** Implementing SHAP/LIME, confusion matrices, and misclassification analysis helps in understanding how the model makes predictions. This transparency increases trust in the model, facilitates debugging, and allows stakeholders to make informed decisions based on the model’s outputs.
+
+**Address Class Imbalances:** Using weighted loss functions or data augmentation mitigates the impact of underrepresented classes in the dataset. This step improves overall model performance, ensuring fair and accurate classifications across all food categories.
+
+**Optimize for Deployment:** Including API integration or inference pipelines makes the model ready for real-world applications. This step ensures smooth integration into food-related platforms, improving usability and increasing the model’s impact.
+
+# Conclusions
+The project effectively demonstrates food classification using machine learning.
+
+While technically strong, adding interpretability and business context will make it more impactful.
+
+The next steps should focus on refining model deployment and ensuring usability in its intended application.nclusions
 
 
