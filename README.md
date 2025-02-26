@@ -268,4 +268,5 @@ The next steps should focus on refining model deployment and ensuring usability 
 
 ## Links
 [Slides](https://docs.google.com/presentation/d/145LXe6Plt4FoNK7ZgG0SERD8y6e6icDFyEUQFNvncsI/edit?usp=sharing)
+[Blog](https://api.wandb.ai/links/savins-nanyaemuny-moringa-school/h0xdx4n8)
 
