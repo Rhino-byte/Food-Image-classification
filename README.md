@@ -117,7 +117,7 @@ test_data = test_data.map(preprocess).batch(32).prefetch(tf.data.AUTOTUNE)
 
 ### Building the Model
 
-We used a Convolutional Neural Network (CNN) for image classification. We started with a simple model and later fine-tuned it.
+We used a Convolutional Neural Network (CNN) architecture for image classification. We started with a simple model and later fine-tuned it.
 ```
 import tensorflow as tf
 from  tensorflow.Keras import layers
@@ -150,7 +150,12 @@ model.compile(loss = 'sparse_categorical_crossentropy',
 
 ### Data Augmentation
 
-Since real-world images may have different orientations, lighting, or occlusions, we applied data augmentation techniques.
+Data augmentation (e.g., flipping, rotating, adjusting brightness) exposed the model to varied scenarios, improving its ability to recognize foods in real-world settings. 
+Finally, prefetching was implemented to prepare the next batch of data while processing the current one, reducing delays and optimizing training speed.
+Together, these steps created a robust and efficient training pipeline for high-accuracy food classification.
+
+![Screenshot 2025-02-26 061801](https://github.com/user-attachments/assets/f8ad7280-8743-4f02-b22e-d8175741a77d)
+
 
 ```
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -180,10 +185,41 @@ We trained the model on the dataset, tracking loss and accuracy for improvements
 
 `history = model.fit(train_data, validation_data=test_data, epochs=10)`
 
+**Comparing History Curves:** we tracked the loss and accuracy curves for training and testing datasets throughout training. By comparing these curves, we gained insights into:
+- **Model Performance:** A steadily decreasing loss and increasing accuracy indicated effective learning.
+- **Overfitting Signs:** If the training accuracy improved while test accuracy plateaued or declined, it signaled overfitting, helping us adjust the model accordingly.
+- **Model Choice:** The model with the best balance between train and test performance—achieving high accuracy with low overfitting—was chosen as the best-performing model.
+
+![Screenshot 2025-02-26 064543](https://github.com/user-attachments/assets/3248ac78-9916-49f7-a9db-93a48a4d4cf5)
+
+#### Addressing Overfitting
+
+To mitigate overfitting in our Food Vision 101 model, we implemented several strategies to enhance the model’s generalization capability, including:
+1. `Data Augmentation:` We applied techniques like random rotations, flips, shifts, and zooms to artificially expand the training dataset, helping the model learn robust features rather than memorizing specific images.
+2. `Early Stopping:` We monitored the validation loss and halted training when it stopped improving, preventing the model from over-training on the training data.
+3. `Regularization Techniques:` We incorporated Dropout layers, which randomly deactivate neurons during training, reducing the risk of the model becoming too reliant on specific pathways.
+4. `Transfer Learning with Fine-Tuning:` Initially, we used feature extraction to leverage pre-trained weights without unfreezing layers. During fine-tuning, only the top layers were updated, maintaining the general features learned from the base model and minimizing overfitting risks.
+5. `Batch Normalization:` Implemented batch normalization layers to stabilize training, allowing the model to learn faster and generalize better.
+6. `Increasing Training Data:` By performing different experiments while tracking how the model performance was affected by the data. [Weight & Biases](https://api.wandb.ai/links/savins-nanyaemuny-moringa-school/h0xdx4n8)
+
+
+
+
+
+
 ### Evaluating the Model
 
 We trained the model using the preprocessed dataset and monitored the accuracy and loss over multiple epochs.
 We evaluated the model on test data and checked the accuracy.
+To evaluate our Food Vision 101 model's performance in real-world scenarios, we tested it on custom images outside of the training and validation datasets. This approach allowed us to observe how well the model generalized to new, unseen food images.
+
+![Screenshot 2025-02-26 071409](https://github.com/user-attachments/assets/a936f6d0-bc58-4e5e-81ea-441919be8017)
+
+The F1-score visualization for the 101 different food classes provides a detailed view of the model's performance across each category. The F1 score combines precision and recall, offering a balanced measure of model accuracy in classifying each food type.
+From the chart, it is evident that certain classes, such as edamame, macarons, and oysters, achieved higher F1 scores, indicating the model's strong performance in accurately predicting these categories. This could be due to distinctive features in the images or a balanced representation of the training data.
+
+![Screenshot 2025-02-26 065430](https://github.com/user-attachments/assets/2042c8d7-ee6c-4c1e-b172-54ad1288c3f5)
+
 
 ```
 test_loss, test_acc = model.evaluate(test_data)
@@ -211,6 +247,7 @@ Training with a pre-trained model (e.g., MobileNetV2) could improve accuracy.
 
 # Success Story
 To evaluate our Food Vision 101 model's performance in real-world scenarios, we tested it on custom images outside of the training and validation datasets. This approach allowed us to observe how well the model generalized to new, unseen food images
+Checkout the [Application](https://huggingface.co/spaces/bushman254/FoodImageClassifier)
 
 
 # Recommendations
