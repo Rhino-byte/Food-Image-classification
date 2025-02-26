@@ -264,6 +264,8 @@ The project effectively demonstrates food classification using machine learning.
 
 While technically strong, adding interpretability and business context will make it more impactful.
 
-The next steps should focus on refining model deployment and ensuring usability in its intended application.nclusions
+The next steps should focus on refining model deployment and ensuring usability in its intended application.
 
+## Links
+[Slides](https://docs.google.com/presentation/d/145LXe6Plt4FoNK7ZgG0SERD8y6e6icDFyEUQFNvncsI/edit?usp=sharing)
 
