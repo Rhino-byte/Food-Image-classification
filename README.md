@@ -15,6 +15,11 @@
 [Imran Mahfoudh](https://github.com/malvadaox)
 
 
+## Links
+SLides:[Presentation](https://docs.google.com/presentation/d/145LXe6Plt4FoNK7ZgG0SERD8y6e6icDFyEUQFNvncsI/edit?usp=sharing)
+
+Blog_Url:[Weights and Biases](https://api.wandb.ai/links/savins-nanyaemuny-moringa-school/h0xdx4n8)
+
 ## Overview *
 This project is a food image classification model built using TensorFlow and trained on the Food101 dataset. The goal is to develop a deep learning model capable of accurately classifying images into one of 101 different food categories. This project is particularly useful for applications in restaurant automation, diet tracking apps, and food delivery services that require image-based food recognition.
 
@@ -266,7 +271,5 @@ While technically strong, adding interpretability and business context will make
 
 The next steps should focus on refining model deployment and ensuring usability in its intended application.
 
-## Links
-[Slides](https://docs.google.com/presentation/d/145LXe6Plt4FoNK7ZgG0SERD8y6e6icDFyEUQFNvncsI/edit?usp=sharing)
-[Blog](https://api.wandb.ai/links/savins-nanyaemuny-moringa-school/h0xdx4n8)
+
 
