@@ -1,0 +1,2 @@
+*.keras filter=lfs diff=lfs merge=lfs -text
+uploads/03-hamburger.jpeg filter=lfs diff=lfs merge=lfs -text
